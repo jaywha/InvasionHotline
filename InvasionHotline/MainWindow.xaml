@@ -12,24 +12,78 @@
         TextElement.FontSize="14"
         FontFamily="{md:MaterialDesignFont}"
         
-        Title="MainWindow" Height="450" Width="950"
+        Title="Invasion Hotline" Height="450" Width="950"
         x:Name="wndMain">
     <Viewbox Stretch="Fill">
         <Grid Width="{Binding ElementName=wndMain, Path=ActualWidth}"
               Height="{Binding ElementName=wndMain, Path=ActualHeight}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="90*"/>
+                <RowDefinition x:Name="rowHeaders" Height="15*"/>
+                <RowDefinition x:Name="rowContent" Height="85*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-            </Grid.ColumnDefinitions>            
-            <Label x:Name="lblInvasions" Foreground="Orange" Content="Invasions" FontFamily="Mickey" FontSize="30px" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+                <ColumnDefinition x:Name="colInvasions" Width="50*"/>
+                <ColumnDefinition x:Name="colDistricts" Width="50*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label x:Name="lblInvasions" Foreground="Orange" Content="Invasions" FontFamily="Mickey" FontSize="30px" Grid.Row="0" Grid.Column="0"/>
+                <md:PopupBox x:Name="btnFilterInvasions" Grid.Row="0" Grid.Column="0" ToolTip="Filter Invasions" PopupMode="Click" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="True">
+                    <md:PopupBox.ToggleContent>
+                        <md:PackIcon Kind="FilterMenu" Width="32px" Height="32px"/>
+                    </md:PopupBox.ToggleContent>
+                    <md:PopupBox.PopupContent>
+                        <StackPanel x:Name="stkFilterParent" Orientation="Vertical" Width="250px" Height="400px">
+                            <Expander>
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="Tie"/>
+                                        <Label>Bossbots</Label>
+                                    </StackPanel>
+                                </Expander.Header>
+                                <ListView x:Name="stkBossbots" ItemsSource="{Binding ElementName=wndMain, Path=Bossbots}" SelectionMode="Multiple" Height="100px" Width="{Binding ElementName=stkFilterParent, Path=ActualWidth}"/>
+                            </Expander>
+                            <GridSplitter HorizontalAlignment="Stretch" Height="3"/>
+                            <Expander>
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="Gavel"/>
+                                        <Label>Lawbots</Label>
+                                    </StackPanel>
+                                </Expander.Header>
+                                <ListView x:Name="stkLawbots" ItemsSource="{Binding ElementName=wndMain, Path=Lawbots}" SelectionMode="Multiple" Height="100px" Width="{Binding ElementName=stkFilterParent, Path=ActualWidth}"/>
+                            </Expander>
+                            <GridSplitter HorizontalAlignment="Stretch" Height="3"/>
+                            <Expander>
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="CashUsdOutline"/>
+                                        <Label>Cashbots</Label>
+                                    </StackPanel>
+                                </Expander.Header>
+                                <ListView x:Name="stkCashbots" ItemsSource="{Binding ElementName=wndMain, Path=Cashbots}" SelectionMode="Multiple" Height="100px" Width="{Binding ElementName=stkFilterParent, Path=ActualWidth}"/>
+                            </Expander>
+                            <GridSplitter HorizontalAlignment="Stretch" Height="3"/>
+                            <Expander>
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="BarChart"/>
+                                        <Label>Sellbots</Label>
+                                    </StackPanel>
+                                </Expander.Header>
+                                <ListView x:Name="stkSellbots" ItemsSource="{Binding ElementName=wndMain, Path=Sellbots}" SelectionMode="Multiple" Height="100px" Width="{Binding ElementName=stkFilterParent, Path=ActualWidth}"/>
+                            </Expander>
+                            <GridSplitter HorizontalAlignment="Stretch" Height="3"/>
+                            <Button x:Name="btnFilter" Style="{DynamicResource MaterialDesignFlatButton}" Content="Activate Filter" Click="btnFilter_Click"/>
+                        </StackPanel>
+                    </md:PopupBox.PopupContent>
+                </md:PopupBox>
+            </DockPanel>
             <ListView x:Name="lvInvasions" ItemsSource="{Binding ElementName=wndMain, Path=Invasions}"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
-                      Grid.Row="1" Grid.Column="0">
+                      Grid.Row="1" Grid.Column="0" Margin="0,0,5,0">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <md:Card x:Name="crdInvasion" Margin="5">
@@ -39,7 +93,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
+            <GridSplitter x:Name="grdspltColumns" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5" Background="SlateGray" MouseDoubleClick="grdspltColumns_MouseDoubleClick"/>
             <Label x:Name="lblDistricts" Foreground="LightBlue" Content="Districts" FontFamily="Mickey" FontSize="30px" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
             <ListView x:Name="lvDistricts" ItemsSource="{Binding ElementName=wndMain, Path=Districts}"
                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
