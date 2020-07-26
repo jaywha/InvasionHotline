@@ -19,14 +19,13 @@
               Height="{Binding ElementName=wndMain, Path=ActualHeight}">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="rowHeaders" Height="15*"/>
-                <RowDefinition x:Name="rowContent" Height="85*"/>
+                <RowDefinition x:Name="rowContent" Height="65*"/>
+                <RowDefinition x:Name="rowStreets" Height="20*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="colInvasions" Width="50*"/>
-                <ColumnDefinition x:Name="colDistricts" Width="50*"/>
+                <ColumnDefinition x:Name="colInvasions" Width="70*"/>
+                <ColumnDefinition x:Name="colDistricts" Width="30*"/>
             </Grid.ColumnDefinitions>
-
-
             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label x:Name="lblInvasions" Foreground="Orange" Content="Invasions" FontFamily="Mickey" FontSize="30px" Grid.Row="0" Grid.Column="0"/>
                 <md:PopupBox x:Name="btnFilterInvasions" Grid.Row="0" Grid.Column="0" ToolTip="Filter Invasions" PopupMode="Click" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="True">
@@ -108,6 +107,40 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <GridSplitter x:Name="grdspltStreets" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="5" Background="SlateGray"/>
+            <DataGrid x:Name="dgStreets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding ElementName=wndMain, Path=Streets}"
+                      Margin="0,5,0,0">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=HomePlayground}" Value="{x:Static local:Playgrounds.Toontown_Central}">
+                                <Setter Property="Background" Value="Khaki"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=HomePlayground}" Value="{x:Static local:Playgrounds.Donald_Dock}">
+                                <Setter Property="Background" Value="Peru"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=HomePlayground}" Value="{x:Static local:Playgrounds.Daisy_Gardens}">
+                                <Setter Property="Background" Value="MediumSeaGreen"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=HomePlayground}" Value="{x:Static local:Playgrounds.Minnie_Melodyland}">
+                                <Setter Property="Background" Value="Orchid"/>
+                                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=HomePlayground}" Value="{x:Static local:Playgrounds.The_Brrrgh}">
+                                <Setter Property="Background" Value="MediumTurquoise"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=HomePlayground}" Value="{x:Static local:Playgrounds.Donald_Dreamland}">
+                                <Setter Property="Background" Value="MediumPurple"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
         </Grid>
     </Viewbox>
 </Window>

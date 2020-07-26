@@ -28,18 +28,22 @@ namespace InvasionHotline
         public DispatcherTimer DistrictPoller = new DispatcherTimer();
 
         private ObservableCollection<Invasion> _invasions = new ObservableCollection<Invasion>();
-        public ObservableCollection<Invasion> Invasions {
+        public ObservableCollection<Invasion> Invasions
+        {
             get => _invasions;
-            set {
+            set
+            {
                 _invasions = value;
                 OnPropertyChanged();
             }
         }
 
         private ObservableCollection<District> _districts = new ObservableCollection<District>();
-        public ObservableCollection<District> Districts {
+        public ObservableCollection<District> Districts
+        {
             get => _districts;
-            set {
+            set
+            {
                 _districts = value;
                 OnPropertyChanged();
             }
@@ -92,6 +96,32 @@ namespace InvasionHotline
             "Two-Face",
             "The Mingler",
             "Mr. Hollywood"
+        };
+
+        public ObservableCollection<Street> Streets { get; set; } = new ObservableCollection<Street>() {
+            // Toontown Central
+            new Street("Loopy Lane", Playgrounds.Toontown_Central, 10, 70, 10, 10),
+            new Street("Punchline Place", Playgrounds.Toontown_Central, 10, 10, 40, 40),
+            new Street("Silly Street", Playgrounds.Toontown_Central, 25, 25, 25, 25),
+            // Donald's Dock
+            new Street("Barnacle Boulevard", Playgrounds.Donald_Dock, 90, 10, 0, 0),
+            new Street("Seaweed Street", Playgrounds.Donald_Dock, 0, 0, 90, 10),
+            new Street("Lighthouse Lane", Playgrounds.Donald_Dock, 40, 40, 10, 10),
+            // Daisy Gardens
+            new Street("Elm Street", Playgrounds.Daisy_Gardens, 0, 20, 10, 70),
+            new Street("Maple Street", Playgrounds.Daisy_Gardens, 10, 70, 0, 20),
+            new Street("Oak Street", Playgrounds.Daisy_Gardens, 5, 5, 5, 85),
+            // Minnie's Melodyland
+            new Street("Alto Avenue", Playgrounds.Minnie_Melodyland, 0 ,0 , 50, 50),
+            new Street("Baritone Boulevard", Playgrounds.Minnie_Melodyland, 0, 0, 90, 10),
+            new Street("Tenor Terrace", Playgrounds.Minnie_Melodyland, 50, 50, 0, 0),
+            // The Brrrgh
+            new Street("Sleet Street", Playgrounds.The_Brrrgh, 10, 20, 30, 40),
+            new Street("Walrus Way", Playgrounds.The_Brrrgh, 90, 10, 0, 0),
+            new Street("Polar Place", Playgrounds.The_Brrrgh, 5, 85, 5, 5),
+            // Donald's Dreamland
+            new Street("Lullaby Lane", Playgrounds.Donald_Dreamland, 25, 25, 25, 25),
+            new Street("Pajama Place", Playgrounds.Donald_Dreamland, 5, 5, 85, 5)
         };
 
         public MainWindow()
@@ -216,24 +246,25 @@ namespace InvasionHotline
 
         private void grdspltColumns_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            colInvasions.Width = new GridLength(50, GridUnitType.Star);
-            colDistricts.Width = new GridLength(50, GridUnitType.Star);
+            colInvasions.Width = new GridLength(70, GridUnitType.Star);
+            colDistricts.Width = new GridLength(30, GridUnitType.Star);
         }
 
         private bool ToggleFilter = false;
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
-            CollectionViewSource filterSource = new CollectionViewSource() { 
+            CollectionViewSource filterSource = new CollectionViewSource()
+            {
                 IsLiveFilteringRequested = true
             };
-            filterSource.Source = Invasions;            
+            filterSource.Source = Invasions;
 
             Console.WriteLine("=== Filter Options ===");
 
             Console.WriteLine("Bossbots {\n");
             foreach (string value in stkBossbots.SelectedItems)
             {
-                Console.WriteLine("\t"+value);
+                Console.WriteLine("\t" + value);
             }
             Console.WriteLine("}\n");
 
@@ -260,7 +291,8 @@ namespace InvasionHotline
 
             Console.WriteLine("=====================");
 
-            filterSource.Filter += (object filterSender, FilterEventArgs filterArgs) => {
+            filterSource.Filter += (object filterSender, FilterEventArgs filterArgs) =>
+            {
                 Invasion invasion = filterArgs.Item as Invasion;
                 string cogName = invasion.Cog;
 
@@ -270,10 +302,11 @@ namespace InvasionHotline
                     return;
                 }
 
-                if(stkBossbots.SelectedItems.Contains(cogName) || stkLawbots.SelectedItems.Contains(cogName) || stkCashbots.SelectedItems.Contains(cogName) || stkSellbots.SelectedItems.Contains(cogName))
+                if (stkBossbots.SelectedItems.Contains(cogName) || stkLawbots.SelectedItems.Contains(cogName) || stkCashbots.SelectedItems.Contains(cogName) || stkSellbots.SelectedItems.Contains(cogName))
                 {
                     filterArgs.Accepted = true;
-                } else
+                }
+                else
                 {
                     filterArgs.Accepted = false;
                 }
@@ -283,7 +316,8 @@ namespace InvasionHotline
                 {
                     btnFilterInvasions.IsPopupOpen = false;
                     btnFilterInvasions.Foreground = Brushes.Green;
-                } else
+                }
+                else
                 {
                     btnFilterInvasions.Foreground = Brushes.Black;
                 }

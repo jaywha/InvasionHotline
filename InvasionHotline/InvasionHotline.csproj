@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -60,6 +63,8 @@
     <Compile Include="DistrictView.xaml.cs">
       <DependentUpon>DistrictView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Playgrounds.cs" />
+    <Compile Include="Street.cs" />
     <Compile Include="TicksToTimeConverter.cs" />
     <Page Include="DistrictView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +140,12 @@
     <PackageReference Include="ShowMeTheXAML.MSBuild">
       <Version>1.0.12</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Sample_Shot.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
