@@ -1,10 +1,12 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
@@ -157,10 +159,14 @@ namespace InvasionHotline
 
                 Districts.Add(newDistrict);
             }
+
+            Districts = new ObservableCollection<District>(Districts.OrderBy(district => district.Population).Reverse());
         }
 
         private void InvasionPoller_Tick(object sender, EventArgs e)
         {
+            var prevInvasions = Invasions;
+
             Invasions.Clear();
             var client = new RestClient("https://toonhq.org/");
             var request = new RestRequest("api/v1/invasion", RestSharp.DataFormat.Json);
@@ -178,7 +184,6 @@ namespace InvasionHotline
                 var endTime = timeStarted.Add(tickTime);
                 var durationTime = DateTime.Now.Subtract(endTime);
 
-
                 var newInvasion = new Invasion()
                 {
                     District = invData.district,
@@ -190,6 +195,12 @@ namespace InvasionHotline
 
                 Invasions.Add(newInvasion);
             }
+        }
+
+        private void ShowAlert(Invasion invasion)
+        {
+            InvasionView balloonView = new InvasionView(invasion);
+            trayIcon.ShowCustomBalloon(balloonView, System.Windows.Controls.Primitives.PopupAnimation.Slide, 6000);
         }
 
         private PackIconKind DetermineLogoBasedOn(string cogName)
@@ -250,6 +261,19 @@ namespace InvasionHotline
             colDistricts.Width = new GridLength(30, GridUnitType.Star);
         }
 
+        /// <summary>
+        /// Will determine if the cog has been selected in the <see cref="btnFilter"/> popup.
+        /// </summary>
+        /// <param name="cogName">Name of the selected cog type</param>
+        /// <returns>True if cog is selected in the filters</returns>
+        private bool DetermineCogInFilters(string cogName)
+        {
+            return stkBossbots.SelectedItems.Contains(cogName)
+                || stkCashbots.SelectedItems.Contains(cogName)
+                || stkSellbots.SelectedItems.Contains(cogName)
+                || stkLawbots.SelectedItems.Contains(cogName);
+        }
+
         private bool ToggleFilter = false;
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
@@ -302,24 +326,13 @@ namespace InvasionHotline
                     return;
                 }
 
-                if (stkBossbots.SelectedItems.Contains(cogName) || stkLawbots.SelectedItems.Contains(cogName) || stkCashbots.SelectedItems.Contains(cogName) || stkSellbots.SelectedItems.Contains(cogName))
+                if (DetermineCogInFilters(cogName))
                 {
                     filterArgs.Accepted = true;
                 }
                 else
                 {
                     filterArgs.Accepted = false;
-                }
-
-                ToggleFilter = !ToggleFilter;
-                if (ToggleFilter)
-                {
-                    btnFilterInvasions.IsPopupOpen = false;
-                    btnFilterInvasions.Foreground = Brushes.Green;
-                }
-                else
-                {
-                    btnFilterInvasions.Foreground = Brushes.Black;
                 }
             };
         }

@@ -19,8 +19,10 @@
             <ColumnDefinition Width="45*"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="lblDistrictName" FontSize="24px" Grid.Column="0" Content="{Binding ElementName=uccDistrictView, Path=DistrictName, FallbackValue={}Thwackville}"
-               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Minnie"/>
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Minnie"
+               Foreground="{Binding ElementName=uccDistrictView, Path=PopColor, FallbackValue=WhiteSmoke}"/>
         <Label x:Name="lblPopulation" Grid.Column="1" FontSize="24px" FontFamily="Consolas" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-               Content="{Binding ElementName=uccDistrictView, Path=Population, FallbackValue={}0 Toons, StringFormat={}{0} Toons}"/>
+               Content="{Binding ElementName=uccDistrictView, Path=Population, FallbackValue={}0 Toons, StringFormat={}{0} Toons}"
+               Foreground="{Binding ElementName=uccDistrictView, Path=PopColor, FallbackValue=WhiteSmoke}"/>
     </Grid>
 </UserControl>

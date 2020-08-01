@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:InvasionHotline"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -14,6 +15,9 @@
         
         Title="Invasion Hotline" Height="450" Width="950"
         x:Name="wndMain">
+    <Window.Resources>
+        <local:PopToPopColorConverter x:Key="PopColorConv"/>
+    </Window.Resources>
     <Viewbox Stretch="Fill">
         <Grid Width="{Binding ElementName=wndMain, Path=ActualWidth}"
               Height="{Binding ElementName=wndMain, Path=ActualHeight}">
@@ -26,6 +30,11 @@
                 <ColumnDefinition x:Name="colInvasions" Width="70*"/>
                 <ColumnDefinition x:Name="colDistricts" Width="30*"/>
             </Grid.ColumnDefinitions>
+            <tb:TaskbarIcon x:Name="trayIcon"
+                    Visibility="Visible"
+                    ToolTipText="Invasion Hotline v0.1-alpha"
+                    IconSource="logo.ico"
+            />
             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label x:Name="lblInvasions" Foreground="Orange" Content="Invasions" FontFamily="Mickey" FontSize="30px" Grid.Row="0" Grid.Column="0"/>
                 <md:PopupBox x:Name="btnFilterInvasions" Grid.Row="0" Grid.Column="0" ToolTip="Filter Invasions" PopupMode="Click" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="True">
@@ -102,7 +111,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Border x:Name="brdDistrict" BorderBrush="AliceBlue" BorderThickness="1" CornerRadius="0.5" Margin="5">                            
-                            <local:DistrictView DistrictName="{Binding Name}" Population="{Binding Population}"/>
+                            <local:DistrictView DistrictName="{Binding Name}" Population="{Binding Population}" PopColor="{Binding Population, Converter={StaticResource PopColorConv}}"/>
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>

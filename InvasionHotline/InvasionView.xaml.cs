@@ -60,5 +60,16 @@ namespace InvasionHotline
         {
             InitializeComponent();
         }
+
+        public InvasionView(Invasion invasion)
+        {
+            InitializeComponent();
+
+            CogImage = invasion.CogLogo;
+            CogName = invasion.Cog;
+            District = invasion.District;
+            Progress = invasion.Progress;
+            Time = invasion.Ticks;
+        }
     }
 }

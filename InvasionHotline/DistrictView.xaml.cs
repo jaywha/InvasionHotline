@@ -23,6 +23,7 @@ namespace InvasionHotline
     {
         public static readonly DependencyProperty PopulationProperty = DependencyProperty.Register("Population", typeof(int), typeof(DistrictView), new PropertyMetadata(0));
         public static readonly DependencyProperty DistrictNameProperty = DependencyProperty.Register("DistrictName", typeof(string), typeof(DistrictView), new PropertyMetadata("Thwackville"));
+        public static readonly DependencyProperty PopColorProperty = DependencyProperty.Register("PopColor", typeof(Brush), typeof(DistrictView), new PropertyMetadata(Brushes.WhiteSmoke));
 
         public int Population
         {
@@ -35,14 +36,15 @@ namespace InvasionHotline
             set { SetValue(DistrictNameProperty, value); }
         }
 
+        public Brush PopColor
+        {
+            get => (Brush)GetValue(PopColorProperty);
+            set { SetValue(PopulationProperty, value); }
+        }
+
         public DistrictView()
         {
             InitializeComponent();
-
-            if (Population >= 500) lblPopulation.Foreground = Brushes.Red;
-            else if (Population >= 400 && Population < 500) lblPopulation.Foreground = Brushes.Yellow;
-            else if (Population <= 200) lblPopulation.Foreground = Brushes.Azure;
-            else lblPopulation.Foreground = Brushes.WhiteSmoke;
         }
     }
 }
