@@ -43,6 +43,11 @@ namespace InvasionHotline
         /// Percentage of bot population that are Sellbots
         /// </summary>
         public int SellbotPercent { get; set; }
+
+        /// <summary>
+        /// Avg. number of steps it takes to go from end-to-end
+        /// </summary>
+        public int NumberOfSteps { get; set; }
         #endregion
 
         public Street(string name, Playgrounds homePlayground = Playgrounds.Toontown_Central,
@@ -56,5 +61,7 @@ namespace InvasionHotline
             CashbotPercent = cashPercent;
             SellbotPercent = sellPercent;
         }
+
+        public override string ToString() => Name;
     }
 }

@@ -102,33 +102,34 @@ namespace InvasionHotline
 
         public ObservableCollection<Street> Streets { get; set; } = new ObservableCollection<Street>() {
             // Toontown Central
-            new Street("Loopy Lane", Playgrounds.Toontown_Central, 10, 70, 10, 10),
-            new Street("Punchline Place", Playgrounds.Toontown_Central, 10, 10, 40, 40),
-            new Street("Silly Street", Playgrounds.Toontown_Central, 25, 25, 25, 25),
+            new Street("Loopy Lane", Playgrounds.Toontown_Central, 10, 70, 10, 10),         // 0
+            new Street("Punchline Place", Playgrounds.Toontown_Central, 10, 10, 40, 40),    // 1
+            new Street("Silly Street", Playgrounds.Toontown_Central, 25, 25, 25, 25),       // 2
             // Donald's Dock
-            new Street("Barnacle Boulevard", Playgrounds.Donald_Dock, 90, 10, 0, 0),
-            new Street("Seaweed Street", Playgrounds.Donald_Dock, 0, 0, 90, 10),
-            new Street("Lighthouse Lane", Playgrounds.Donald_Dock, 40, 40, 10, 10),
+            new Street("Barnacle Boulevard", Playgrounds.Donald_Dock, 90, 10, 0, 0),        // 3
+            new Street("Seaweed Street", Playgrounds.Donald_Dock, 0, 0, 90, 10),            // 4
+            new Street("Lighthouse Lane", Playgrounds.Donald_Dock, 40, 40, 10, 10),         // 5
             // Daisy Gardens
-            new Street("Elm Street", Playgrounds.Daisy_Gardens, 0, 20, 10, 70),
-            new Street("Maple Street", Playgrounds.Daisy_Gardens, 10, 70, 0, 20),
-            new Street("Oak Street", Playgrounds.Daisy_Gardens, 5, 5, 5, 85),
+            new Street("Elm Street", Playgrounds.Daisy_Gardens, 0, 20, 10, 70),             // 6
+            new Street("Maple Street", Playgrounds.Daisy_Gardens, 10, 70, 0, 20),           // 7
+            new Street("Oak Street", Playgrounds.Daisy_Gardens, 5, 5, 5, 85),               // 8
             // Minnie's Melodyland
-            new Street("Alto Avenue", Playgrounds.Minnie_Melodyland, 0 ,0 , 50, 50),
-            new Street("Baritone Boulevard", Playgrounds.Minnie_Melodyland, 0, 0, 90, 10),
-            new Street("Tenor Terrace", Playgrounds.Minnie_Melodyland, 50, 50, 0, 0),
+            new Street("Alto Avenue", Playgrounds.Minnie_Melodyland, 0 ,0 , 50, 50),        // 9
+            new Street("Baritone Boulevard", Playgrounds.Minnie_Melodyland, 0, 0, 90, 10),  // 10
+            new Street("Tenor Terrace", Playgrounds.Minnie_Melodyland, 50, 50, 0, 0),       // 11
             // The Brrrgh
-            new Street("Sleet Street", Playgrounds.The_Brrrgh, 10, 20, 30, 40),
-            new Street("Walrus Way", Playgrounds.The_Brrrgh, 90, 10, 0, 0),
-            new Street("Polar Place", Playgrounds.The_Brrrgh, 5, 85, 5, 5),
+            new Street("Sleet Street", Playgrounds.The_Brrrgh, 10, 20, 30, 40),             // 12
+            new Street("Walrus Way", Playgrounds.The_Brrrgh, 90, 10, 0, 0),                 // 13
+            new Street("Polar Place", Playgrounds.The_Brrrgh, 5, 85, 5, 5),                 // 14
             // Donald's Dreamland
-            new Street("Lullaby Lane", Playgrounds.Donald_Dreamland, 25, 25, 25, 25),
-            new Street("Pajama Place", Playgrounds.Donald_Dreamland, 5, 5, 85, 5)
+            new Street("Lullaby Lane", Playgrounds.Donald_Dreamland, 25, 25, 25, 25),       // 15
+            new Street("Pajama Place", Playgrounds.Donald_Dreamland, 5, 5, 85, 5)           // 16
         };
 
         public MainWindow()
         {
             InitializeComponent();
+            PrepareStreets();
 
             InvasionPoller.Interval = TimeSpan.FromSeconds(3);
             InvasionPoller.Tick += InvasionPoller_Tick;
@@ -137,6 +138,37 @@ namespace InvasionHotline
             DistrictPoller.Interval = TimeSpan.FromSeconds(4);
             DistrictPoller.Tick += DistrictPoller_Tick;
             DistrictPoller.Start();
+        }
+
+        public void PrepareStreets()
+        {
+            Streets[0].ConnectedStreet = Streets[9];
+            Streets[1].ConnectedStreet = Streets[3];
+            Streets[2].ConnectedStreet = Streets[6];
+
+            Streets[3].ConnectedStreet = Streets[1];
+            Streets[4].ConnectedStreet = Streets[7];
+            Streets[5].ConnectedStreet = Streets[13];
+
+            Streets[6].ConnectedStreet = Streets[2];
+            Streets[7].ConnectedStreet = Streets[4];
+            Streets[8].ConnectedStreet = new Street("Sellbot HQ", Playgrounds.Daisy_Gardens, 0, 0, 0, 100);
+
+            Streets[9].ConnectedStreet = Streets[0];
+            Streets[10].ConnectedStreet = Streets[12];
+            Streets[11].ConnectedStreet = Streets[15];
+
+            Streets[12].ConnectedStreet = Streets[10];
+            Streets[13].ConnectedStreet = Streets[5];
+            Streets[14].ConnectedStreet = new Street("Lawbot HQ", Playgrounds.The_Brrrgh, 0, 100, 0, 0);
+
+            Streets[15].ConnectedStreet = Streets[15];
+            Streets[16].ConnectedStreet = new Street("Cashbot HQ", Playgrounds.Donald_Dreamland, 0, 0, 100, 0);
+        }
+
+        private void CCDistrictPoller_Tick(object sender, EventArgs e)
+        {
+            var client = new RestClient("https://corporateclash.net/api/v1/districts.js");
         }
 
         private void DistrictPoller_Tick(object sender, EventArgs e)

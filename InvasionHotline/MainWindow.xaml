@@ -118,7 +118,7 @@
             </ListView>
             <GridSplitter x:Name="grdspltStreets" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="5" Background="SlateGray"/>
             <DataGrid x:Name="dgStreets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding ElementName=wndMain, Path=Streets}"
-                      Margin="0,5,0,0">
+                      Margin="0,5,0,0" AutoGenerateColumns="False">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
@@ -149,6 +149,32 @@
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Playground" Binding="{Binding HomePlayground}" />
+                    <DataGridTextColumn Header="Sister Street" Binding="{Binding ConnectedStreet}" />
+                    <DataGridTextColumn Binding="{Binding BossbotPercent}">
+                        <DataGridTextColumn.Header>
+                            <md:PackIcon Kind="Tie"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding LawbotPercent}">
+                        <DataGridTextColumn.Header>
+                            <md:PackIcon Kind="Gavel"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding CashbotPercent}">
+                        <DataGridTextColumn.Header>
+                            <md:PackIcon Kind="CashUsdOutline"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding SellbotPercent}">
+                        <DataGridTextColumn.Header>
+                            <md:PackIcon Kind="ChartBar"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="NoS" Binding="{Binding NumberOfSteps}" />
+                </DataGrid.Columns>
             </DataGrid>
         </Grid>
     </Viewbox>
