@@ -367,6 +367,8 @@ namespace InvasionHotline
                     filterArgs.Accepted = false;
                 }
             };
+
+            lvInvasions.ItemsSource = filterSource.View;
         }
     }
 }

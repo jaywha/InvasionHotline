@@ -3,8 +3,8 @@ I'm planning to do a couple of projects in C# .NET (Framework and Core) using th
 My main goal is to allow users to get info about the game like:
 
 - [ ] Server status (pending API Key)
-- [x] Invasion Tracking (operational, but still improving)
-- [ ] District Monitoring (available, heatmap in progress)
+- [x] Invasion Tracking with bot filtering
+- [x] District Monitoring with color coding
 - [ ] Task Tracking (capstone project for full-stack nanodegree)
 
 ## ![Logo](InvasionHotline/logo.ico) Invasion Hotline
