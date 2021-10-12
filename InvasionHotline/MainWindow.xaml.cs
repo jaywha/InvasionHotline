@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace InvasionHotline
 
         public DispatcherTimer InvasionPoller = new DispatcherTimer();
         public DispatcherTimer DistrictPoller = new DispatcherTimer();
+        public DispatcherTimer SillyMeterPoller = new DispatcherTimer();
 
         private ObservableCollection<Invasion> _invasions = new ObservableCollection<Invasion>();
         public ObservableCollection<Invasion> Invasions
@@ -138,6 +140,10 @@ namespace InvasionHotline
             DistrictPoller.Interval = TimeSpan.FromSeconds(4);
             DistrictPoller.Tick += DistrictPoller_Tick;
             DistrictPoller.Start();
+
+            SillyMeterPoller.Interval = TimeSpan.FromSeconds(10);
+            SillyMeterPoller.Tick += SillyMeterPoller_Tick;
+            SillyMeterPoller.Start();
         }
 
         public void PrepareStreets()
@@ -201,32 +207,53 @@ namespace InvasionHotline
 
             Invasions.Clear();
             var client = new RestClient("https://toonhq.org/");
+            client.AddDefaultHeader("User-Agent", "Invasion_Hotline-WPF_App");
             var request = new RestRequest("api/v1/invasion", RestSharp.DataFormat.Json);
             var response = client.Get(request);
 
             var jsonResult = JsonConvert.DeserializeObject<ToonHQInvasionRequest>(response.Content);
-            if (jsonResult == null || jsonResult.invasions == null) return;
+            if (jsonResult == null || jsonResult.Invasions == null) return;
             // Console.WriteLine(jsonResult.ToString());
-            foreach (JObject apiInvasion in jsonResult.invasions)
+            foreach (JObject apiInvasion in jsonResult.Invasions)
             {
                 var invData = JsonConvert.DeserializeObject<ToonHQInvasionData>(apiInvasion.ToString());
-                var maxNumberOfCogs = Convert.ToDouble(invData.total);
-                var tickTime = new TimeSpan(0, 0, (int)((invData.total - invData.defeated) / invData.defeat_rate));
-                var timeStarted = new DateTime(invData.start_time).ToLocalTime();
+                var tickTime = new TimeSpan(0, 0, (int)(0.7 * invData.Total));
+                var timeStarted = new DateTime(invData.Start_time).ToLocalTime();
                 var endTime = timeStarted.Add(tickTime);
                 var durationTime = DateTime.Now.Subtract(endTime);
 
                 var newInvasion = new Invasion()
                 {
-                    District = invData.district,
-                    Cog = invData.cog,
+                    District = invData.District,
+                    Cog = invData.Cog,
                     Ticks = durationTime.Ticks,
-                    Progress = $"{invData.defeated}/{invData.total}",
-                    CogLogo = DetermineLogoBasedOn(invData.cog)
+                    Progress = $"{invData.Defeated}/{invData.Total}",
+                    CogLogo = DetermineLogoBasedOn(invData.Cog)
                 };
 
                 Invasions.Add(newInvasion);
             }
+        }
+        private void SillyMeterPoller_Tick(object sender, EventArgs e)
+        {
+            var client = new RestClient("https://www.toontownrewritten.com/");
+            var request = new RestRequest("api/sillymeter", RestSharp.DataFormat.Json);
+            var response = client.Get(request);
+
+            var jsonResult = JsonConvert.DeserializeObject<SillyMeterRequest>(response.Content);
+            if (jsonResult == null) return;
+
+            sillyMeter.Sillyness = jsonResult.HP;
+            sillyMeter.SillyStatus = Enum.TryParse(jsonResult.State, out SillyMeterStatus sillyState) ? sillyState : SillyMeterStatus.Inactive;
+
+            var rewards = new List<string>();
+            var rewardDescriptions = new List<string>();
+            jsonResult.Rewards.ForEach(r => rewards.Add(r.ToString()));
+            jsonResult.RewardDescriptions.ForEach(d => rewardDescriptions.Add(d.ToString()));
+
+            sillyMeter.Rewards = rewards;
+            sillyMeter.RewardDescriptions = rewardDescriptions;
+            sillyMeter.Init();
         }
 
         private void ShowAlert(Invasion invasion)
@@ -306,7 +333,8 @@ namespace InvasionHotline
                 || stkLawbots.SelectedItems.Contains(cogName);
         }
 
-        private bool ToggleFilter = false;
+        // private bool ToggleFilter = false;
+
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
             CollectionViewSource filterSource = new CollectionViewSource()

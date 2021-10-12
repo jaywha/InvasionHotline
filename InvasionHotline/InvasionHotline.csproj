@@ -60,12 +60,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CallerMemberServicesAttribute.cs" />
     <Compile Include="District.cs" />
     <Compile Include="DistrictView.xaml.cs">
       <DependentUpon>DistrictView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Playgrounds.cs" />
     <Compile Include="PopToPopColorConverter.cs" />
+    <Compile Include="SillyMeter.cs" />
+    <Compile Include="SillyMeterControl.xaml.cs">
+      <DependentUpon>SillyMeterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Street.cs" />
     <Compile Include="TicksToTimeConverter.cs" />
     <Page Include="DistrictView.xaml">
@@ -92,6 +97,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SillyMeterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -123,6 +132,9 @@
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
       <Version>1.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="LiveCharts.Wpf">
+      <Version>0.9.7</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
       <Version>1.2.2</Version>

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="InvasionHotline.SillyMeterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:local="clr-namespace:InvasionHotline"
+             mc:Ignorable="d"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            Background="{DynamicResource MaterialDesignPaper}"
+            TextElement.FontWeight="Medium"
+            TextElement.FontSize="14"
+            FontFamily="{md:MaterialDesignFont}"
+             x:Name="uccSillyMeterControl"
+             d:DesignHeight="175" d:DesignWidth="325">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="40*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65*"/>
+            <RowDefinition Height="35*"/>
+        </Grid.RowDefinitions>
+
+        <lvc:Gauge Grid.Row="0" Grid.Column="0" GaugeActiveFill="#FF17FF00" To="5000000" Margin="0,0,10,5" Value="{Binding ElementName=uccSillyMeterControl, Path=Sillyness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="{Binding ElementName=uccSillyMeterControl, Path=SillyStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <StackPanel x:Name="stkRewards" Grid.Row="0" Grid.Column="1" Orientation="Vertical"/>
+    </Grid>
+</UserControl>

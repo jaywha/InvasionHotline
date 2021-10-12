@@ -44,40 +44,40 @@ namespace InvasionHotline
     public class ToonHQInvasionRequest
     {
         [DataMember]
-        public JsonArray invasions { get; set; }
+        public JsonArray Invasions { get; set; }
     }
 
     [DataContract]
     public class ToonHQInvasionData
     {
         [DataMember]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [DataMember]
-        public float defeat_rate { get; set; }
+        public float Defeat_rate { get; set; }
 
         [DataMember]
-        public long start_time { get; set; }
+        public long Start_time { get; set; }
 
         [DataMember]
-        public int defeated { get; set; }
+        public int Defeated { get; set; }
 
         [DataMember]
-        public int total { get; set; }
+        public int Total { get; set; }
 
         [DataMember]
-        public long as_of { get; set; }
+        public long As_of { get; set; }
 
         [DataMember]
-        public bool manual { get; set; }
+        public bool Manual { get; set; }
 
         [DataMember]
-        public int reports { get; set; }
+        public int Reports { get; set; }
 
         [DataMember]
-        public string district { get; set; }
+        public string District { get; set; }
 
         [DataMember]
-        public string cog { get; set; }
+        public string Cog { get; set; }
     }
 }

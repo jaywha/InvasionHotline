@@ -5,7 +5,7 @@ My main goal is to allow users to get info about the game like:
 - [ ] Server status (pending API Key)
 - [x] Invasion Tracking with bot filtering
 - [x] District Monitoring with color coding
-- [ ] Task Tracking (capstone project for full-stack nanodegree)
+- [ ] Task Tracking
 
 ## ![Logo](InvasionHotline/logo.ico) Invasion Hotline
 

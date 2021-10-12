@@ -23,8 +23,8 @@
               Height="{Binding ElementName=wndMain, Path=ActualHeight}">
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="rowHeaders" Height="15*"/>
-                <RowDefinition x:Name="rowContent" Height="65*"/>
-                <RowDefinition x:Name="rowStreets" Height="20*"/>
+                <RowDefinition x:Name="rowContent" Height="55*"/>
+                <RowDefinition x:Name="rowStreets" Height="30*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="colInvasions" Width="70*"/>
@@ -101,7 +101,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <GridSplitter x:Name="grdspltColumns" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5" Background="SlateGray" MouseDoubleClick="grdspltColumns_MouseDoubleClick"/>
+            <GridSplitter x:Name="grdspltColumns" Grid.Column="0" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5" Background="SlateGray" MouseDoubleClick="grdspltColumns_MouseDoubleClick"/>
             <Label x:Name="lblDistricts" Foreground="LightBlue" Content="Districts" FontFamily="Mickey" FontSize="30px" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
             <ListView x:Name="lvDistricts" ItemsSource="{Binding ElementName=wndMain, Path=Districts}"
                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -117,8 +117,8 @@
                 </ListView.ItemTemplate>
             </ListView>
             <GridSplitter x:Name="grdspltStreets" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="5" Background="SlateGray"/>
-            <DataGrid x:Name="dgStreets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding ElementName=wndMain, Path=Streets}"
-                      Margin="0,5,0,0" AutoGenerateColumns="False">
+            <DataGrid x:Name="dgStreets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding ElementName=wndMain, Path=Streets}"
+                      Margin="0,5,5,0" AutoGenerateColumns="False">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
@@ -176,6 +176,7 @@
                     <DataGridTextColumn Header="NoS" Binding="{Binding NumberOfSteps}" />
                 </DataGrid.Columns>
             </DataGrid>
+            <local:SillyMeterControl x:Name="sillyMeter" Grid.Column="1" Grid.Row="2" />
         </Grid>
     </Viewbox>
 </Window>
